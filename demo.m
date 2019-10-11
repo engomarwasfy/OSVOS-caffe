@@ -1,7 +1,7 @@
 clear; close all; clc;
 addpath(genpath('src'));
 addpath(genpath('lib'));
-cd(osvos_root);
+%cd(osvos_root);
 
 % Set name and number of online training iters
 name = 'drift-chicane';
