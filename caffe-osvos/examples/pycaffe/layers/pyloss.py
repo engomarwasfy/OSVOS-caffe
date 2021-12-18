@@ -30,8 +30,5 @@ class EuclideanLossLayer(caffe.Layer):
         for i in range(2):
             if not propagate_down[i]:
                 continue
-            if i == 0:
-                sign = 1
-            else:
-                sign = -1
+            sign = 1 if i == 0 else -1
             bottom[i].diff[...] = sign * self.diff / bottom[i].num

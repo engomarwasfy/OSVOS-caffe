@@ -32,7 +32,7 @@ def create_field_index():
                    test_key:{'Iters':0, 'Seconds':1, test_key + ' accuracy':2,
                              test_key + ' loss':3}}
     fields = set()
-    for data_file_type in field_index.keys():
+    for data_file_type in field_index:
         fields = fields.union(set(field_index[data_file_type].keys()))
     fields = list(fields)
     fields.sort()
@@ -53,13 +53,11 @@ def get_supported_chart_types():
 
 def get_chart_type_description(chart_type):
     supported_chart_types = get_supported_chart_types()
-    chart_type_description = supported_chart_types[chart_type]
-    return chart_type_description
+    return supported_chart_types[chart_type]
 
 def get_data_file_type(chart_type):
     description = get_chart_type_description(chart_type)
-    data_file_type = description.split()[0]
-    return data_file_type
+    return description.split()[0]
 
 def get_data_file(chart_type, path_to_log):
     return (os.path.basename(path_to_log) + '.' +
@@ -95,9 +93,8 @@ def random_marker():
     return markers.values()[idx]
 
 def get_data_label(path_to_log):
-    label = path_to_log[path_to_log.rfind('/')+1 : path_to_log.rfind(
+    return path_to_log[path_to_log.rfind('/')+1 : path_to_log.rfind(
         get_log_file_suffix())]
-    return label
 
 def get_legend_loc(chart_type):
     x_axis, y_axis = get_field_descriptions(chart_type)

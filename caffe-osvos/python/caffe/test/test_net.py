@@ -54,9 +54,7 @@ class TestNet(unittest.TestCase):
         del self.net
 
         # now sum everything (forcing all memory to be read)
-        total = 0
-        for p in params:
-            total += p.data.sum() + p.diff.sum()
+        total = sum(p.data.sum() + p.diff.sum() for p in params)
         for bl in blobs:
             total += bl.data.sum() + bl.diff.sum()
 

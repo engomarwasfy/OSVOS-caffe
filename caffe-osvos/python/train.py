@@ -41,17 +41,19 @@ def time(solver, nccl):
     display = solver.param.display
 
     def show_time():
-        if solver.iter % display == 0:
-            s = '\n'
-            for i in range(len(solver.net.layers)):
-                s += 'forw %3d %8s ' % (i, solver.net._layer_names[i])
-                s += ': %.2f\n' % fprop[i].ms
-            for i in range(len(solver.net.layers) - 1, -1, -1):
-                s += 'back %3d %8s ' % (i, solver.net._layer_names[i])
-                s += ': %.2f\n' % bprop[i].ms
-            s += 'solver total: %.2f\n' % total.ms
-            s += 'allreduce: %.2f\n' % allrd.ms
-            caffe.log(s)
+        if solver.iter % display != 0:
+            return
+
+        s = '\n'
+        for i in range(len(solver.net.layers)):
+            s += 'forw %3d %8s ' % (i, solver.net._layer_names[i])
+            s += ': %.2f\n' % fprop[i].ms
+        for i in range(len(solver.net.layers) - 1, -1, -1):
+            s += 'back %3d %8s ' % (i, solver.net._layer_names[i])
+            s += ': %.2f\n' % bprop[i].ms
+        s += 'solver total: %.2f\n' % total.ms
+        s += 'allreduce: %.2f\n' % allrd.ms
+        caffe.log(s)
 
     solver.net.before_forward(lambda layer: fprop[layer].start())
     solver.net.after_forward(lambda layer: fprop[layer].stop())

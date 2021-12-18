@@ -62,27 +62,20 @@ class CaffeSolver:
     def __init__(self, testnet_prototxt_path="testnet.prototxt",
                  trainnet_prototxt_path="trainnet.prototxt", debug=False):
 
-        self.sp = {}
+        self.sp = {
+            'base_lr': '0.001',
+            'momentum': '0.9',
+            'test_iter': '100',
+            'test_interval': '250',
+            'display': '25',
+            'snapshot': '2500',
+            'snapshot_prefix': '"snapshot"',
+            'lr_policy': '"fixed"',
+            'gamma': '0.1',
+            'weight_decay': '0.0005',
+        }
 
-        # critical:
-        self.sp['base_lr'] = '0.001'
-        self.sp['momentum'] = '0.9'
 
-        # speed:
-        self.sp['test_iter'] = '100'
-        self.sp['test_interval'] = '250'
-
-        # looks:
-        self.sp['display'] = '25'
-        self.sp['snapshot'] = '2500'
-        self.sp['snapshot_prefix'] = '"snapshot"'  # string within a string!
-
-        # learning rate policy
-        self.sp['lr_policy'] = '"fixed"'
-
-        # important, but rare:
-        self.sp['gamma'] = '0.1'
-        self.sp['weight_decay'] = '0.0005'
         self.sp['train_net'] = '"' + trainnet_prototxt_path + '"'
         self.sp['test_net'] = '"' + testnet_prototxt_path + '"'
 
@@ -116,6 +109,6 @@ class CaffeSolver:
         """
         f = open(filepath, 'w')
         for key, value in sorted(self.sp.items()):
-            if not(type(value) is str):
+            if type(value) is not str:
                 raise TypeError('All solver parameters must be strings')
             f.write('%s: %s\n' % (key, value))

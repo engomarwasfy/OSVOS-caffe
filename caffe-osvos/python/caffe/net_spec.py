@@ -115,11 +115,12 @@ class Function(object):
         self.tops = tuple(Top(self, n) for n in range(self.ntop))
 
     def _get_name(self, names, autonames):
-        if self not in names and self.ntop > 0:
-            names[self] = self._get_top_name(self.tops[0], names, autonames)
-        elif self not in names:
-            autonames[self.type_name] += 1
-            names[self] = self.type_name + str(autonames[self.type_name])
+        if self not in names:
+            if self.ntop > 0:
+                names[self] = self._get_top_name(self.tops[0], names, autonames)
+            else:
+                autonames[self.type_name] += 1
+                names[self] = self.type_name + str(autonames[self.type_name])
         return names[self]
 
     def _get_top_name(self, top, names, autonames):

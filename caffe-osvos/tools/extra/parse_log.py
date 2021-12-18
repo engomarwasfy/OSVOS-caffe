@@ -195,8 +195,7 @@ def parse_args():
                         help=('Column delimiter in output files '
                               '(default: \'%(default)s\')'))
 
-    args = parser.parse_args()
-    return args
+    return parser.parse_args()
 
 
 def main():
